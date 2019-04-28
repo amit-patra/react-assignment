@@ -1,0 +1,26 @@
+{
+    "SCM": [
+        {
+            "ToolName": "Git",
+            "IconPath": "../../assets/icon/git.png"
+        },
+        {
+            "ToolName": "GitHub",
+            "IconPath": "../../assets/icon/github.png"
+        },
+        {
+            "ToolName": "BitBucket",
+            "IconPath": "../../assets/icon/Bitbucket.png"
+        },
+        {
+            "ToolName": "GitLabs",
+            "IconPath": "../../assets/icon/gitlab.png"
+        }
+    ],
+    "PM": [
+        {
+            "ToolName": "JIRA",
+            "IconPath": "../../assets/icon/jira.png"
+        }
+    ]
+}
