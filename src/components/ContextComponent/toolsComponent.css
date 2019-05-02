@@ -206,8 +206,10 @@ form.example::after {
 
 .tool-name {
   font-weight: bold;
-  color: #90726b;
+  color: #da4911;
   margin-top: 10px;
+  font-family: "Bodoni MT", Didot, "Didot LT STD", "Book Antiqua", Garamond, "Times New Roman", serif;
+  font-size: 16px;
 }
 
 .tool-list-area{
@@ -229,7 +231,8 @@ form.example::after {
        box-shadow: 0 10px 6px -6px #777;
  }
  #Tools-list-bar {
-    width: 1233px;
+    /* width: 1475px; */
+    width: 815px;
     overflow: scroll;
     overflow: hidden;
 }
@@ -261,6 +264,53 @@ hr.line{
 .arrow-btn:hover {
   background-color: #bd3636;
 }
+.padding-left20{
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .col-md-1point5 {width: 3%}
 .col-md-2point5 {width: 3%}
 .col-md-10point5 {width: 94%;}
+
+
+/* Multi Select Css */
+.multiselect {
+  width: 240px;
+  margin-left: 26px;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  /* font-weight: bold; */
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+  text-align: left;
+  background-color: white;
+  margin-left: 4px;
+  padding-left: 5px;
+  width: 100%;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+/* End Multi select */

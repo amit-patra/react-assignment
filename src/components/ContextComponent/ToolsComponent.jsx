@@ -10,10 +10,13 @@ class ToolsComponent extends Component {
         this.myOhtersHandler = this.myOhtersHandler.bind(this);
         this.projectIdHandler = this.projectIdHandler.bind(this);
         this.viewTools = this.viewTools.bind(this);
+        this.showCheckboxes = this.showCheckboxes.bind(this);
+        this.unitTestHandler = this.unitTestHandler.bind(this);
         this.state = {
             fields:{},
             projectId:"",
             othersData:{},
+            expanded : false,
             ScmTools: [
                 { ToolName: "Git", Value: "Git" },
                 { ToolName: "GitHub", Value: "GitHub" },
@@ -167,6 +170,22 @@ class ToolsComponent extends Component {
     viewTools(){
         this.props.history.push("/viewTools");
     }
+    
+    showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!this.state.expanded) {
+         checkboxes.style.display = "block";
+          this.state.expanded = true;
+        } else {
+         checkboxes.style.display = "none";
+          this.state.expanded = false;
+        }
+      }
+      unitTestHandler(e){
+        let item = e.target.name;
+        let isChecked = e.target.checked;
+        console.log("Clicked")
+      }
     render() {
         let ScmToolsOptions = this.state.ScmTools.map((element,index) => (
             <option value={element.value} key={index}>{element.ToolName}</option>
@@ -181,7 +200,10 @@ class ToolsComponent extends Component {
             <option value={element.value} key={index}>{element.ToolName}</option>
         ))
         let UnitTestToolsOptions = this.state.UnitTestTools.map((element,index) => (
-            <option value={element.value} key={index}>{element.ToolName}</option>
+            // <option value={element.value} key={index}>{element.ToolName}</option>
+            <p key={index}>
+            <input type="checkbox" name={element.ToolName} onChange={this.unitTestHandler} />{element.ToolName}
+            </p>
         ))
         let CodeCoverageToolsOptions = this.state.CodeCoverageTools.map((element,index) => (
             <option value={element.value} key={index}>{element.ToolName}</option>
@@ -240,10 +262,29 @@ class ToolsComponent extends Component {
                         </div>
                         <div>
                             <label className="label-pos">UnitTest Tools</label>
-                            <select className="input-field drop-down drop-down" name="UnitTestTools"  value={this.state.fields.UnitTestTools || ''}  onChange={this.selectHandler}>
+                            {/* <select className="input-field drop-down drop-down" name="UnitTestTools"  value={this.state.fields.UnitTestTools || ''}  onChange={this.selectHandler}>
                             <option >Please Select</option>
                                 {UnitTestToolsOptions}
-                            </select>
+                            </select> */}
+                            {/* Multi select */}
+                            <div className="multiselect">
+                                <div className="selectBox" onClick={this.showCheckboxes}>
+                                <select className="input-field drop-down drop-down">
+                                    <option>Please Select</option>
+                                </select>
+                                <div className="overSelect"></div>
+                                </div>
+                                <div id="checkboxes">
+                                {UnitTestToolsOptions}
+                                {/* <label htmlFor="one">
+                                    <input type="checkbox" id="one" />First checkbox</label>
+                                <label htmlFor="two">
+                                    <input type="checkbox" id="two" />Second checkbox</label>
+                                <label htmlFor="three">
+                                    <input type="checkbox" id="three" />Third checkbox</label> */}
+                                </div>
+                            </div>
+                            {/* Multi Select */}
                         </div>
                         <input type="text" className="input-field drop-down" id="UnitTestToolsInput" name="UnitTestToolsInput" placeholder="Please enter UnitTestToolsInput name" style={{display:'none'}} value={this.state.othersData.UnitTestToolsInput || ''} onChange={this.myOhtersHandler} onKeyDown={this.addOtherData}  />
                         <div>

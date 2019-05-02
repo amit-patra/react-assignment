@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import ReactTooltip from 'react-tooltip'
+import ReactTooltip from 'react-tooltip';
+import './flipComponent.css'
 class ToolsList extends Component {
     constructor(props) {
         super(props);
@@ -14,12 +15,23 @@ class ToolsList extends Component {
             ToolsItem: [],
             serachData: "",
             ToolsName: [],
-            ToolsList: []
+            ToolsList: [],
+            AllToolsActivities:{}
         }
 
     }
     componentDidMount() {
-        // this.LoadToolsList();
+        this.LoadToolsActivities();
+    }
+    LoadToolsActivities(){
+        axios.get(`http://localhost:9000/allToolsActivities`)
+        .then(res => {
+            console.log(res.data);
+            this.state.AllToolsActivities = res.data;
+        })
+        .catch((error) => {
+
+        });
     }
     goBack() {
         this.props.history.push("/");
@@ -71,26 +83,61 @@ class ToolsList extends Component {
             return true;
         }
     }
-    getFileName(key, fileName){
+    getFileName(key, fileName) {
         var data = require('./tools.json');
-        if(data[key].indexOf(fileName)>=0){
+        if (data[key].indexOf(fileName) >= 0) {
             return fileName
         }
-        else{
+        else {
             return "defaultImage";
         }
+    }
+    getActivities(ToolsHeader){
+        let projectId = this.state.serachData;
+        let AllToolsActivities = this.state.AllToolsActivities ;
+        var ToolsStr = '';
+        for (var key in AllToolsActivities) {
+            if(key == projectId){
+              let ToolsData =   AllToolsActivities[key];
+                if(ToolsData[ToolsHeader]){
+                    let AllToolKeyList = ToolsData[ToolsHeader]
+                    for(var toolKey in AllToolKeyList){
+                        let toolsItem = AllToolKeyList[toolKey];
+                         ToolsStr += `<p className="flip-text">${toolKey}: ${toolsItem} </p>`
+                    }
+                }
+            }
+        }
+        return  ToolsStr;
     }
     getToolData(ToolsHeader, ToolDetails) {
         for (var key in ToolDetails) {
             if (key == `${ToolsHeader}Tools`) {
                 let fileName = ToolDetails[key];
-                let checkExistFile = this.getFileName(ToolsHeader,fileName);
+                let checkExistFile = this.getFileName(ToolsHeader, fileName);
+                let tooltipData = ` totalSprints: 8 <br />
+                                    activeSprint: 5 <br />
+                                    totalIssuesInCurrentSprint: 4 <br />
+                                    toDoIssuesInCurrentSprint: 3 <br />
+                                    inProgressIssuesInCurrentSprint: 1`;
                 return (
-                    <React.Fragment> 
-                        <img className="tool-img-icon" key={checkExistFile} data-tip={checkExistFile} src={require(`../../assets/icon/${checkExistFile}.png`)} />
-                        <ReactTooltip />
+                    <React.Fragment>
+                        {/* <img className="tool-img-icon" key={checkExistFile} data-tip={tooltipData} src={require(`../../assets/icon/${checkExistFile}.png`)} /><br/> */}
+
+                        {/* <ReactTooltip html={true} /> */}
+                        <div className="flip-card">
+                            <div className="flip-card-inner">
+                                <div className="flip-card-front">
+                                    {/* <img src="img_avatar.png" alt="Avatar" style="width:300px;height:300px;" /> */}
+                                    <img className="tool-img-icon" key={checkExistFile} data-tip={tooltipData} src={require(`../../assets/icon/${checkExistFile}.png`)} />
+                                </div>
+                                <div className="flip-card-back">
+                                    <div dangerouslySetInnerHTML={{ __html: this.getActivities(ToolsHeader)}} />
+                                </div>
+                            </div>
+                        </div>
                     </React.Fragment>
-                    
+
                 )
             }
         }
@@ -154,7 +201,7 @@ class ToolsList extends Component {
                     <input type="text" placeholder="Search.." name="serachData" value={serachData} onChange={this.searchHandler} />
                     <button type="submit" onClick={this.search}><i className="fa fa-search"></i></button>
                 </form>
-                <div className="container" style={{ width: "100%", marginTop: "10px" }} >
+                <div className="container" style={{ width: "70%", marginTop: "10px" }} >
 
                     {/* Start New JSX */}
                     <div className="row tool-list-area">
@@ -163,7 +210,7 @@ class ToolsList extends Component {
                                 <i className="fa fa-angle-double-left"></i>
                             </button>
                         </div>
-                        <div className="col-md-10 padding-0 col-md-10point5" >
+                        <div className="col-md-10 padding-0 col-md-10point5 padding-left20" >
                             <div id="Tools-list-bar">
                                 <div id="content">
                                     {ToolsDetails}

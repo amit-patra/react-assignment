@@ -42,4 +42,14 @@ app.get('/viewTools/:projectId', (req,res)=>{
     }
     });
 })
+app.get('/allToolsActivities', (req,res)=>{
+    fs.readFile(`./data/toolsActivities/toolsActivities.json`, 'utf8', function readFileCallback(err, data){
+        if (err){
+            res.status(400).send({message:"Not found"});
+        }
+        else{
+            res.send(data);
+        }
+    })
+})
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
